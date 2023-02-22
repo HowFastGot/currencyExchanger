@@ -1,0 +1,80 @@
+table {
+     .MuiButton-textInfo {
+          display: none;
+          min-width: 20px;
+          position: absolute;
+          right: -19px;
+          top: -17px;
+          transition: all 0.3s ease 0s;
+     }
+
+     .TableCell_hower {
+          position: relative;
+          background-color: transparent;
+
+          .TableDiv_hower {
+               position: relative;
+               display: inline-block;
+               padding: 2px 10px;
+               cursor: pointer;
+
+               &:hover {
+                    background-color: rgb(228, 226, 226);
+
+                    .MuiButton-textInfo {
+                         display: inline-block;
+                    }
+               }
+          }
+
+          .MuiButtonGroup-root {
+               position: absolute;
+               right: -35px;
+               top: 2px;
+               z-index: 30;
+               justify-content: end;
+
+               .MuiButton-root {
+                    display: inline-block;
+                    height: 20px;
+                    text-align: left;
+                    padding: 0;
+                    transition: all 0.3s ease 0s;
+
+                    &:last-child {
+                         position: relative;
+                         right: 20px;
+                         width: 10px;
+                         cursor: auto;
+                    }
+
+                    svg {
+                         width: 15px;
+                         background-color: #fff;
+                         cursor: pointer;
+                    }
+
+                    &:hover {
+                         transform: scale(1.2);
+                         background-color: transparent;
+                    }
+               }
+          }
+     }
+
+     .MuiSvgIcon-fontSizeSmall {
+          height: 12px;
+          color: rgb(119, 117, 117);
+          cursor: pointer;
+     }
+
+     @media (max-width: 390px) {
+          .MuiTableContainer-root {
+               min-height: 240px !important;
+          }
+
+          & {
+               table-layout: fixed;
+          }
+     }
+}

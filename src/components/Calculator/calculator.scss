@@ -1,0 +1,16 @@
+.MuiContainer-root {
+
+     @media (max-width: 520px) {
+
+          &>.MuiBox-root {
+               grid-template: 1fr / 190px;
+               grid-auto-flow: row;
+
+               .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+                    align-self: end;
+                    padding: 20px 0 0 0;
+               }
+          }
+     }
+
+}
