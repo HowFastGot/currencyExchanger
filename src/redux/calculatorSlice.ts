@@ -63,6 +63,17 @@ const calculatorSlice = createSlice({
 		getCurrencyName: (state, action) => {
 			state.getCurrency = action.payload;
 		},
+		changeInitialValue: (
+			state,
+			action: {
+				payload: {
+					currency: 'btc' | 'usd' | 'euro';
+					value: string;
+				};
+			}
+		) => {
+			state[action.payload.currency]['buy'] = action.payload.value;
+		},
 	},
 });
 
@@ -93,6 +104,7 @@ export const {
 		fetchBtcInitialRate,
 		changeCurrencyName,
 		getCurrencyName,
+		changeInitialValue,
 	},
 	reducer,
 } = calculatorSlice;

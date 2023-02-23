@@ -10,6 +10,7 @@ import {
 	currencySelector,
 	fetchedResults,
 } from '../../redux/currencyRatesSlice';
+import { changeInitialValue } from '../../redux/calculatorSlice';
 
 import { isInRequiredRange } from '../../utils/validateCustomTextInput/validateCustomTextInput';
 import { RootStateType } from '../../redux/store';
@@ -20,6 +21,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormHelperText from '@mui/material/FormHelperText';
+import { IResponseObjPrivatAPI } from '../../types';
 
 export function CustomTextField({
 	nameOfColumn,
@@ -92,8 +94,8 @@ export function CustomTextField({
 
 		dispatch(saveNewCurrencyValue(newCellStateObj));
 
-		const newArr = [...values];
-		let newCurrObj;
+		const newArr: IResponseObjPrivatAPI[] = [...values];
+		let newCurrObj: IResponseObjPrivatAPI;
 
 		if (nameOfColumn === 'first') {
 			newCurrObj = {
@@ -101,6 +103,35 @@ export function CustomTextField({
 				buy: newValue.toString(),
 			};
 			newArr.splice(index, 1, newCurrObj);
+
+			switch (index) {
+				case 0:
+					dispatch(
+						changeInitialValue({
+							currency: 'euro',
+							value: newValue.toString(),
+						})
+					);
+					break;
+				case 1:
+					dispatch(
+						changeInitialValue({
+							currency: 'usd',
+							value: newValue.toString(),
+						})
+					);
+					break;
+				case 2:
+					dispatch(
+						changeInitialValue({
+							currency: 'btc',
+							value: newValue.toString(),
+						})
+					);
+					break;
+				default:
+					break;
+			}
 		} else {
 			newCurrObj = {
 				...newArr[index],
@@ -109,6 +140,7 @@ export function CustomTextField({
 			newArr.splice(index, 1, newCurrObj);
 		}
 
+		newArr.splice(index, 1, newCurrObj);
 		dispatch(fetchedResults(newArr));
 	};
 

@@ -36,6 +36,7 @@ export function TableContent() {
 		firstTableObj: {
 			isTrue: isTextFieldBuyCol,
 			indexOfElement: indexOfElementFirstCol,
+			columnValue,
 		},
 		secondtTableObj: {
 			isTrue: isTextFieldSellCol,
