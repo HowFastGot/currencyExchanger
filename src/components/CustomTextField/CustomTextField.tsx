@@ -42,20 +42,27 @@ export function CustomTextField({
 	const defaultValueOfInput =
 		nameOfColumn === 'second' ? secondColumnValue : firstColumnValue;
 
-	const [newValue, setNewValue] = useState(defaultValueOfInput);
+	const [newValue, setNewValue] = useState(defaultValueOfInput.toString());
 	const [isError, setIsError] = useState(false);
 
 	const dispatch = useDispatch();
+
 	const validateInputValue = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		const targetValue = parseFloat(e.target.value);
+		const regExp = /^[0-9]+(.)?([0-9]+)?/gi;
 
-		if (isInRequiredRange(defaultValueOfInput, targetValue)) {
+		const targetValueArr = e.target.value.match(regExp);
+
+		const userNewNumber = targetValueArr ? targetValueArr[0] : '';
+		if (
+			isInRequiredRange(defaultValueOfInput, userNewNumber) ||
+			isNaN(+userNewNumber)
+		) {
 			setIsError(true);
-			setNewValue(defaultValueOfInput);
+			setNewValue(userNewNumber);
 		} else {
-			setNewValue(targetValue);
+			setNewValue(userNewNumber);
 			setIsError(false);
 		}
 	};
@@ -64,7 +71,7 @@ export function CustomTextField({
 		const defaultCellStateObj = {
 			isTrue: false,
 			indexOfElement: -1,
-			columnValue: 0,
+			columnValue: '0',
 			nameOfColumn: nameOfColumn,
 		};
 
@@ -113,6 +120,7 @@ export function CustomTextField({
 					size='small'
 					children={<CheckIcon />}
 					onClick={handleClickOnSaveBtn}
+					disabled={isError}
 					disableRipple
 				/>
 				<Button

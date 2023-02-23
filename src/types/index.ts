@@ -7,7 +7,7 @@ import {
 export interface ITableCellState {
 	isTrue: boolean;
 	indexOfElement: number;
-	columnValue: number;
+	columnValue: string;
 	nameOfColumn: string;
 }
 export interface ITableSliceInitialState {
@@ -55,6 +55,34 @@ export interface ICurrencySelectProps {
 
 export interface ITableCellObj {
 	name: string;
-	buy: number;
-	sell: number;
+	buy: string;
+	sell: string;
+}
+
+//==================================================================================
+export type CalculatorSetActionType = React.Dispatch<
+	React.SetStateAction<string>
+>;
+
+type CurrencyType = 'UAH' | 'USD' | 'EUR' | 'BTC';
+
+export interface IInitialCalculatorState {
+	uan: {
+		buy: string;
+		sell: string;
+	};
+	usd: {
+		buy: string;
+		sell: string;
+	};
+	euro: {
+		buy: string;
+		sell: string;
+	};
+	btc: {
+		buy: string;
+		sell: string;
+	};
+	changeCurrency: CurrencyType;
+	getCurrency: CurrencyType;
 }

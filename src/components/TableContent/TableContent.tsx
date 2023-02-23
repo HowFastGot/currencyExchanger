@@ -66,7 +66,7 @@ export function TableContent() {
 
 	const changeContentOfTableCellBothCol = (
 		nameOfColumn: string,
-		rowValue: number,
+		rowValue: string,
 		index: number,
 		isTextStateFieldBoth: boolean,
 		indexOfElementFromState: number,

@@ -5,7 +5,7 @@ import { ITableSliceInitialState, ITableCellState } from '../types';
 const columnStateObj: ITableCellState = {
 	isTrue: false,
 	indexOfElement: -1,
-	columnValue: 0,
+	columnValue: '0',
 	nameOfColumn: 'unknown',
 };
 
@@ -63,7 +63,7 @@ const tableSlice = createSlice({
 			state,
 			action: {
 				payload: {
-					columnValue: number;
+					columnValue: string;
 					indexOfElement: number;
 					isTrue: boolean;
 					nameOfColumn: 'second' | 'first' | string;

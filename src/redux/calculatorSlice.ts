@@ -1,21 +1,22 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { IInitialCalculatorState } from '../types';
 
-const initialState = {
+const initialState: IInitialCalculatorState = {
 	uan: {
-		buy: 1,
-		sell: 1,
+		buy: ' 1',
+		sell: '1',
 	},
 	usd: {
-		buy: 0,
-		sell: 0,
+		buy: '0',
+		sell: '0',
 	},
 	euro: {
-		buy: 0,
-		sell: 0,
+		buy: '0',
+		sell: '0',
 	},
 	btc: {
-		buy: 0,
-		sell: 0,
+		buy: '0',
+		sell: '0',
 	},
 	changeCurrency: 'UAH',
 	getCurrency: 'USD',
@@ -30,12 +31,12 @@ const calculatorSlice = createSlice({
 			action: {
 				payload: {
 					usd: {
-						buy: number;
-						sell: number;
+						buy: string;
+						sell: string;
 					};
 					euro: {
-						buy: number;
-						sell: number;
+						buy: string;
+						sell: string;
 					};
 				};
 			}
@@ -77,10 +78,12 @@ export const calculatorSelector = createSelector(
 	(euro, usd, uan, btc, changeCurrency, getCurrency) => ({
 		euro,
 		usd,
-		uan,
 		btc,
 		changeCurrency,
 		getCurrency,
+		usdToEuroRatio: (+usd.buy / +euro.buy).toString(),
+		usdToBtcRatio: (+btc.buy * +usd.buy).toString(),
+		euroToBtcRatio: (+btc.buy * (+usd.buy / +euro.buy)).toString(),
 	})
 );
 
