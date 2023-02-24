@@ -14,7 +14,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { RootStateType } from '../../redux/store';
 import { useHttp } from '../../hooks/http.hook';
 
-import './app.scss';
+import './App.scss';
 
 function App() {
 	const [isServerError, setServerError] = useState('');
