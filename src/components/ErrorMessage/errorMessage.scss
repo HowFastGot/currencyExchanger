@@ -1,8 +1,23 @@
 .error-boundary {
      display: flex;
+     flex-direction: column;
+     gap: 50px;
      width: 130%;
      align-items: center;
      justify-content: center;
-     height: 100px;
+
+     height: 100%;
      margin: 0 auto;
+
+     p:first-child {
+          text-align: center;
+          font-size: 25px;
+          font-weight: 800;
+     }
+
+     p:last-child {
+          width: 100%;
+          text-align: center;
+          color: red
+     }
 }

@@ -1,16 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
 	Bottom,
 	Header,
 	Container,
 	TableContent,
 	Calculator,
+	ErrorMessage,
 } from '../components-transponder';
+import LoadingButton from '@mui/lab/LoadingButton';
 
+import { RootStateType } from '../../redux/store';
 import { useHttp } from '../../hooks/http.hook';
 
+import './app.scss';
+
 function App() {
+	const [isServerError, setServerError] = useState('');
+	const [updateData, setUpdateDate] = useState(1);
+	const loading = useSelector(
+		(state: RootStateType) => state.currencyReducer.loading
+	);
+
 	const { request } = useHttp();
+
+	const handleUpdateCurrencies = (): void => {
+		setUpdateDate((state) => state + 1);
+
+		console.log(localStorage);
+
+		if (isServerError) {
+			setServerError('');
+		}
+	};
 
 	useEffect(() => {
 		request(
@@ -19,17 +41,33 @@ function App() {
 			.then(() =>
 				request('https://api.coindesk.com/v1/bpi/currentprice.json')
 			)
-			.catch((e) => {
-				alert('Error');
-			});
-	});
+			.catch((error) => {
+				setServerError(error.message);
+			})
+			.finally();
+	}, [request, updateData]);
 
 	return (
 		<>
 			<Header />
 			<Container>
-				<TableContent />
+				{isServerError ? (
+					<ErrorMessage errorText={isServerError} />
+				) : (
+					<TableContent />
+				)}
+
 				<Calculator />
+
+				<LoadingButton
+					loading={loading}
+					variant='outlined'
+					children={
+						isServerError ? 'Refresh page0 ' : 'Refresh currencies'
+					}
+					sx={{ width: '250px', m: '0 auto' }}
+					onClick={handleUpdateCurrencies}
+				/>
 			</Container>
 			<Bottom />
 		</>

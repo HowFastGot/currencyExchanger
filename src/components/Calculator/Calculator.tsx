@@ -15,7 +15,6 @@ import { CurrencySelect } from '../components-transponder';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 
 import './calculator.scss';
@@ -417,11 +416,6 @@ export function Calculator() {
 					<CurrencySelect defaultValue='USD' isChangeFiled={false} />
 				</Box>
 			</Box>
-			<LoadingButton
-				variant='outlined'
-				children={'Process'}
-				sx={{ width: '150px', m: '0 auto' }}
-			/>
 		</>
 	);
 }

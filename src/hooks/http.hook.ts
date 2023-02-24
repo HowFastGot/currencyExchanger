@@ -20,8 +20,11 @@ import {
 	fetchBtcInitialRate,
 } from '../redux/calculatorSlice';
 
-import { changeApiObject } from '../utils/changeAPIresponseData/changeAPIresponseData';
-import { changeBtcAPIObject } from '../utils/changeBtcAPIObject';
+import {
+	changeBtcAPIObject,
+	emulateServerError,
+	changeApiObject,
+} from '../utils';
 
 export const useHttp = () => {
 	const dispath: AppDispatchType = useDispatch();
@@ -33,6 +36,7 @@ export const useHttp = () => {
 			body: null | string = null
 		) => {
 			if (url !== 'https://api.coindesk.com/v1/bpi/currentprice.json') {
+				emulateServerError();
 				dispath(fetchingResult());
 			}
 

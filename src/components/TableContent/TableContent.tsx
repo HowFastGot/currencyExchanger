@@ -122,7 +122,9 @@ export function TableContent() {
 		}
 
 		if (error) {
-			return <ErrorMessage />;
+			return (
+				<ErrorMessage errorText='Check internet connection or CORS policy!' />
+			);
 		}
 
 		return rows.map((row, index) => (
