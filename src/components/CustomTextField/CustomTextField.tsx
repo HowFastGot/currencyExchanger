@@ -129,6 +129,7 @@ export function CustomTextField({
 					},
 					'& input': {
 						padding: '5px',
+						fontSize: '10px',
 					},
 				}}
 				onChange={validateInputValue}

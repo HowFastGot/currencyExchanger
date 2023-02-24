@@ -10,3 +10,6 @@ export { CurrencySelect } from '../CurrencySelect/CurrencySelect';
 export { CustomTextField } from '../CustomTextField/CustomTextField';
 export { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 export { TableSceleton } from '../TableSceleton/TableSceleton';
+
+//==================================================================================
+export { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';

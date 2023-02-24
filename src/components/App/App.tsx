@@ -7,6 +7,7 @@ import {
 	TableContent,
 	Calculator,
 	ErrorMessage,
+	ErrorBoundary,
 } from '../components-transponder';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -51,13 +52,16 @@ function App() {
 		<>
 			<Header />
 			<Container>
-				{isServerError ? (
-					<ErrorMessage errorText={isServerError} />
-				) : (
-					<TableContent />
-				)}
-
-				<Calculator />
+				<ErrorBoundary>
+					{isServerError ? (
+						<ErrorMessage errorText={isServerError} />
+					) : (
+						<TableContent />
+					)}
+				</ErrorBoundary>
+				<ErrorBoundary>
+					<Calculator />
+				</ErrorBoundary>
 
 				<LoadingButton
 					loading={loading}
