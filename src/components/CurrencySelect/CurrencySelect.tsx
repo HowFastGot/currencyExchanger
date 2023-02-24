@@ -8,14 +8,15 @@ import {
 	changeCurrencyName,
 	getCurrencyName,
 } from '../../redux/calculatorSlice';
+import { AppDispatchType } from '../../redux/store';
 
-import { ICurrencySelectProps } from '../../types';
+import { ICurrencySelectProps } from '../../types/componentsPropsInterface';
 
 export function CurrencySelect({
 	defaultValue,
 	isChangeFiled,
 }: ICurrencySelectProps) {
-	const dispatch = useDispatch();
+	const dispatch: AppDispatchType = useDispatch();
 
 	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		if (isChangeFiled) {

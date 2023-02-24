@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 import { calculatorSelector } from '../../redux/calculatorSlice';
 import { RootStateType } from '../../redux/store';
-
-import { CurrencySelect } from '../components-transponder';
-
 import {
 	multiply,
 	divide,
 	exchangeCurrencyRate,
 	validateUserCalculatorInput,
 } from '../../utils/calculatorFunctions';
+
+import { CurrencySelect } from '../components-transponder';
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -40,15 +40,10 @@ export function Calculator() {
 	const handleInputCurrencyValue = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const targetChangeValue =
-			e.target.id === ':r1:' ? changeCurrency : getCurrency;
-		const targetGetValue =
-			e.target.id === ':r3:' ? changeCurrency : getCurrency;
-
 		if (e.target.id === ':r1:') {
-			switch (targetChangeValue) {
+			switch (changeCurrency) {
 				case 'UAH':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'USD':
 							exchangeCurrencyRate(
 								e.target.value,
@@ -86,7 +81,7 @@ export function Calculator() {
 					}
 					break;
 				case 'USD':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
@@ -126,7 +121,7 @@ export function Calculator() {
 					}
 					break;
 				case 'EUR':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
@@ -167,11 +162,11 @@ export function Calculator() {
 
 					break;
 				case 'BTC':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
-								btc.buy,
+								usdToBtcRatio,
 								multiply,
 								setChangeValue,
 								setValue
@@ -209,9 +204,9 @@ export function Calculator() {
 					throw new Error('Added new currency. Please, check!');
 			}
 		} else {
-			switch (targetChangeValue) {
+			switch (changeCurrency) {
 				case 'UAH':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'USD':
 							exchangeCurrencyRate(
 								e.target.value,
@@ -225,18 +220,18 @@ export function Calculator() {
 							exchangeCurrencyRate(
 								e.target.value,
 								euro.buy,
-								divide,
-								setChangeValue,
-								setValue
+								multiply,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'BTC':
 							exchangeCurrencyRate(
 								e.target.value,
 								usdToBtcRatio,
-								divide,
-								setChangeValue,
-								setValue
+								multiply,
+								setValue,
+								setChangeValue
 							);
 							break;
 						default:
@@ -249,32 +244,32 @@ export function Calculator() {
 					}
 					break;
 				case 'USD':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
 								usd.buy,
-								multiply,
-								setChangeValue,
-								setValue
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'EUR':
 							exchangeCurrencyRate(
 								e.target.value,
 								usdToEuroRatio,
-								multiply,
-								setChangeValue,
-								setValue
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'BTC':
 							exchangeCurrencyRate(
 								e.target.value,
 								btc.buy,
-								divide,
-								setChangeValue,
-								setValue
+								multiply,
+								setValue,
+								setChangeValue
 							);
 							break;
 
@@ -289,32 +284,32 @@ export function Calculator() {
 					}
 					break;
 				case 'EUR':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
 								euro.buy,
-								multiply,
-								setChangeValue,
-								setValue
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'USD':
 							exchangeCurrencyRate(
 								e.target.value,
 								usdToEuroRatio,
-								divide,
-								setChangeValue,
-								setValue
+								multiply,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'BTC':
 							exchangeCurrencyRate(
 								e.target.value,
 								euroToBtcRatio,
-								divide,
-								setChangeValue,
-								setValue
+								multiply,
+								setValue,
+								setChangeValue
 							);
 							break;
 
@@ -330,32 +325,32 @@ export function Calculator() {
 
 					break;
 				case 'BTC':
-					switch (targetGetValue) {
+					switch (getCurrency) {
 						case 'UAH':
 							exchangeCurrencyRate(
 								e.target.value,
-								btc.buy,
-								multiply,
-								setChangeValue,
-								setValue
+								usdToBtcRatio,
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'USD':
 							exchangeCurrencyRate(
 								e.target.value,
 								btc.buy,
-								multiply,
-								setChangeValue,
-								setValue
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						case 'EUR':
 							exchangeCurrencyRate(
 								e.target.value,
 								euroToBtcRatio,
-								multiply,
-								setChangeValue,
-								setValue
+								divide,
+								setValue,
+								setChangeValue
 							);
 							break;
 						default:
@@ -376,25 +371,18 @@ export function Calculator() {
 	return (
 		<>
 			<Box
+				display={'grid'}
 				sx={{
-					display: 'grid',
 					gridTemplate: '1fr /190px 20px 190px',
 					justifyItems: 'center',
 					alignItems: 'end',
 					justifyContent: 'center',
 					gap: '10px 50px',
-
-					'& .MuiInputBase-input': {
-						width: '100px',
-						fontSize: '17px',
-						color: '#000',
-						fontWeight: '900',
-					},
 				}}
 			>
 				<Box
+					display='flex'
 					sx={{
-						display: 'flex',
 						alignItems: 'end',
 						justifyContent: 'space-between',
 						width: '100%',
@@ -413,8 +401,8 @@ export function Calculator() {
 					<SyncAltIcon />
 				</IconButton>
 				<Box
+					display='flex'
 					sx={{
-						display: 'flex',
 						alignItems: 'end',
 						justifyContent: 'space-between',
 						width: '100%',
@@ -432,7 +420,7 @@ export function Calculator() {
 			<LoadingButton
 				variant='outlined'
 				children={'Process'}
-				sx={{ width: '150px', margin: '0 auto' }}
+				sx={{ width: '150px', m: '0 auto' }}
 			/>
 		</>
 	);

@@ -2,7 +2,12 @@ import { useCallback } from 'react';
 import { AppDispatchType } from '../redux/store';
 import { useDispatch } from 'react-redux';
 
-import { IResponseObjPrivatAPI } from '../types';
+import {
+	IApiBtcObj,
+	IBtcToUSDRation,
+	IResponseObjPrivatAPI,
+} from '../types/apiObjectsInterface';
+
 import {
 	fetchingResult,
 	errorFetching,
@@ -14,7 +19,9 @@ import {
 	fetchInitialValuesExceptBtc,
 	fetchBtcInitialRate,
 } from '../redux/calculatorSlice';
-import { changeApiObject } from '../utils/changeAPIresponseData';
+
+import { changeApiObject } from '../utils/changeAPIresponseData/changeAPIresponseData';
+import { changeBtcAPIObject } from '../utils/changeBtcAPIObject';
 
 export const useHttp = () => {
 	const dispath: AppDispatchType = useDispatch();
@@ -41,38 +48,25 @@ export const useHttp = () => {
 				if (
 					url === 'https://api.coindesk.com/v1/bpi/currentprice.json'
 				) {
-					const data: {
-						bpi: {
-							USD: { code: 'USD'; rate_float: string };
-						};
-					} = await response.json();
+					const data: IApiBtcObj = await response.json();
 
-					const usdValue: {
-						code: 'USD';
-						['rate_float']: string;
-					} = data.bpi.USD;
+					const usdValue: IBtcToUSDRation = data.bpi.USD;
+					const changedBtcObj = changeBtcAPIObject(usdValue);
+					dispath(fetchBitcoinRate(changedBtcObj));
+
+					dispath(fetchBtcInitialRate(changedBtcObj));
+				} else {
+					const currencyRatesArray: IResponseObjPrivatAPI[] =
+						await response.json();
+
+					dispath(fetchedResults(currencyRatesArray));
+
+					const changedPrivatApiObject =
+						changeApiObject(currencyRatesArray);
 
 					dispath(
-						fetchBitcoinRate({
-							name: usdValue.code,
-							buy: usdValue['rate_float'],
-							sale: '25214.20',
-						})
+						fetchInitialValuesExceptBtc(changedPrivatApiObject)
 					);
-
-					const calculatorObj = {
-						buy: usdValue['rate_float'],
-						sell: 25214.2,
-					} as const;
-					dispath(fetchBtcInitialRate(calculatorObj));
-				} else {
-					const data: IResponseObjPrivatAPI[] = await response.json();
-
-					dispath(fetchedResults(data));
-
-					const newObj = changeApiObject(data);
-
-					dispath(fetchInitialValuesExceptBtc(newObj));
 				}
 			} catch (e) {
 				dispath(errorFetching());

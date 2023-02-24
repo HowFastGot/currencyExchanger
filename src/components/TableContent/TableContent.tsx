@@ -13,9 +13,9 @@ import {
 	ErrorMessage,
 	TableSceleton,
 } from '../components-transponder';
-import { ITableCellObj } from '../../types';
+import { ITableCellObj } from '../../types/slicesInitialStateInterface';
 
-import { RootStateType } from '../../redux/store';
+import { AppDispatchType, RootStateType } from '../../redux/store';
 import { createData, NameModificator } from '../../utils';
 
 import Table from '@mui/material/Table';
@@ -36,7 +36,6 @@ export function TableContent() {
 		firstTableObj: {
 			isTrue: isTextFieldBuyCol,
 			indexOfElement: indexOfElementFirstCol,
-			columnValue,
 		},
 		secondtTableObj: {
 			isTrue: isTextFieldSellCol,
@@ -50,7 +49,7 @@ export function TableContent() {
 		return currencySelector(state.currencyReducer);
 	});
 
-	const dispatch = useDispatch();
+	const dispatch: AppDispatchType = useDispatch();
 
 	useEffect(() => {
 		const funcCreatorsArray: ITableCellObj[] = [];

@@ -6,14 +6,12 @@ import {
 	tableBothColumsSelector,
 	saveNewCurrencyValue,
 } from '../../redux/tableSlice';
-import {
-	currencySelector,
-	fetchedResults,
-} from '../../redux/currencyRatesSlice';
-import { changeInitialValue } from '../../redux/calculatorSlice';
+import { currencySelector } from '../../redux/currencyRatesSlice';
 
-import { isInRequiredRange } from '../../utils/validateCustomTextInput/validateCustomTextInput';
-import { RootStateType } from '../../redux/store';
+import { changeInitialCurrencyRateState, isInRequiredRange } from '../../utils';
+import { AppDispatchType, RootStateType } from '../../redux/store';
+
+import { ITableCellState } from '../../types/slicesInitialStateInterface';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -21,7 +19,6 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormHelperText from '@mui/material/FormHelperText';
-import { IResponseObjPrivatAPI } from '../../types';
 
 export function CustomTextField({
 	nameOfColumn,
@@ -47,7 +44,7 @@ export function CustomTextField({
 	const [newValue, setNewValue] = useState(defaultValueOfInput.toString());
 	const [isError, setIsError] = useState(false);
 
-	const dispatch = useDispatch();
+	const dispatch: AppDispatchType = useDispatch();
 
 	const validateInputValue = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -70,7 +67,7 @@ export function CustomTextField({
 	};
 
 	const handleClickCloseBtn = () => {
-		const defaultCellStateObj = {
+		const defaultCellStateObj: ITableCellState = {
 			isTrue: false,
 			indexOfElement: -1,
 			columnValue: '0',
@@ -85,7 +82,7 @@ export function CustomTextField({
 	};
 
 	const handleClickOnSaveBtn = () => {
-		const newCellStateObj = {
+		const newCellStateObj: ITableCellState = {
 			isTrue: false,
 			indexOfElement: index,
 			columnValue: newValue,
@@ -94,54 +91,13 @@ export function CustomTextField({
 
 		dispatch(saveNewCurrencyValue(newCellStateObj));
 
-		const newArr: IResponseObjPrivatAPI[] = [...values];
-		let newCurrObj: IResponseObjPrivatAPI;
-
-		if (nameOfColumn === 'first') {
-			newCurrObj = {
-				...newArr[index],
-				buy: newValue.toString(),
-			};
-			newArr.splice(index, 1, newCurrObj);
-
-			switch (index) {
-				case 0:
-					dispatch(
-						changeInitialValue({
-							currency: 'euro',
-							value: newValue.toString(),
-						})
-					);
-					break;
-				case 1:
-					dispatch(
-						changeInitialValue({
-							currency: 'usd',
-							value: newValue.toString(),
-						})
-					);
-					break;
-				case 2:
-					dispatch(
-						changeInitialValue({
-							currency: 'btc',
-							value: newValue.toString(),
-						})
-					);
-					break;
-				default:
-					break;
-			}
-		} else {
-			newCurrObj = {
-				...newArr[index],
-				sale: newValue.toString(),
-			};
-			newArr.splice(index, 1, newCurrObj);
-		}
-
-		newArr.splice(index, 1, newCurrObj);
-		dispatch(fetchedResults(newArr));
+		changeInitialCurrencyRateState(
+			values,
+			nameOfColumn,
+			index,
+			newValue,
+			dispatch
+		);
 	};
 
 	return (

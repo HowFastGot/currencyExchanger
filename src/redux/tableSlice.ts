@@ -1,6 +1,9 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-import { ITableSliceInitialState, ITableCellState } from '../types';
+import {
+	ITableSliceInitialState,
+	ITableCellState,
+} from '../types/slicesInitialStateInterface';
 
 const columnStateObj: ITableCellState = {
 	isTrue: false,

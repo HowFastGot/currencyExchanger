@@ -15,9 +15,13 @@ function App() {
 	useEffect(() => {
 		request(
 			'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
-		).then(() =>
-			request('https://api.coindesk.com/v1/bpi/currentprice.json')
-		);
+		)
+			.then(() =>
+				request('https://api.coindesk.com/v1/bpi/currentprice.json')
+			)
+			.catch((e) => {
+				alert('Error');
+			});
 	});
 
 	return (

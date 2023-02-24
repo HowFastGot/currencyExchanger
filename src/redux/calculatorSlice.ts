@@ -1,5 +1,8 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
-import { IInitialCalculatorState } from '../types';
+
+import { IInitialCalculatorState } from '../types/slicesInitialStateInterface';
+
+//==================================================================================
 
 const initialState: IInitialCalculatorState = {
 	uan: {

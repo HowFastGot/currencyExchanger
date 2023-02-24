@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container';
 
-import { IContainerProps } from '../../types';
+import { IContainerProps } from '../../types/componentsPropsInterface';
 
 export function MainContainer({ children }: IContainerProps) {
 	return (

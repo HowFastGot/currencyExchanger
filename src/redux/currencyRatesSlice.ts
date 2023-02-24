@@ -1,5 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { ICurrencyInitialState, IResponseObjPrivatAPI } from '../types';
+
+import { IResponseObjPrivatAPI } from '../types/apiObjectsInterface';
+import { ICurrencyInitialState } from '../types/slicesInitialStateInterface';
 
 interface IAction {
 	payload: IResponseObjPrivatAPI[];
