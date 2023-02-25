@@ -19,11 +19,10 @@ export class ErrorBoundary extends Component<IProps, IState> {
 
 	componentDidCatch(error: Error, errorMessage: ErrorInfo) {
 		console.log('Первый аргумент componentDidCatch: >>', error);
-		console.log('Второй аргумент componentDidCatch: >>', errorMessage);
 
 		this.setState({
 			error: true,
-			errorText: errorMessage.componentStack,
+			errorText: error.message,
 		});
 	}
 

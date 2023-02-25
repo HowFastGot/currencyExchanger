@@ -14,11 +14,12 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { RootStateType } from '../../redux/store';
 import { useHttp } from '../../hooks/http.hook';
 
-import './App.scss';
+import './app.scss';
 
 function App() {
 	const [isServerError, setServerError] = useState('');
 	const [updateData, setUpdateDate] = useState(1);
+
 	const loading = useSelector(
 		(state: RootStateType) => state.currencyReducer.loading
 	);
@@ -27,12 +28,7 @@ function App() {
 
 	const handleUpdateCurrencies = (): void => {
 		setUpdateDate((state) => state + 1);
-
-		console.log(localStorage);
-
-		if (isServerError) {
-			setServerError('');
-		}
+		localStorage.setItem('count', updateData.toString());
 	};
 
 	useEffect(() => {
@@ -44,9 +40,15 @@ function App() {
 			)
 			.catch((error) => {
 				setServerError(error.message);
-			})
-			.finally();
-	}, [request, updateData]);
+			});
+
+		return () => {
+			if (isServerError) {
+				setServerError('');
+				setUpdateDate(1);
+			}
+		};
+	}, [request, updateData, isServerError]);
 
 	return (
 		<>
@@ -67,7 +69,7 @@ function App() {
 					loading={loading}
 					variant='outlined'
 					children={
-						isServerError ? 'Refresh page0 ' : 'Refresh currencies'
+						isServerError ? 'Refresh page' : 'Load currencies'
 					}
 					sx={{ width: '250px', m: '0 auto' }}
 					onClick={handleUpdateCurrencies}

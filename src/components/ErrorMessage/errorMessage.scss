@@ -1,14 +1,12 @@
 .error-boundary {
      display: flex;
      flex-direction: column;
-     gap: 50px;
-     width: 130%;
+     gap: 30px;
+     height: 100%;
+     margin: 0 auto;
      padding: 20px;
      align-items: center;
      justify-content: center;
-
-     height: 100%;
-     margin: 0 auto;
 
      p:first-child {
           text-align: center;

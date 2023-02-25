@@ -8,11 +8,7 @@ import {
 
 import { currencySelector } from '../../redux/currencyRatesSlice';
 
-import {
-	CustomTextField,
-	ErrorMessage,
-	TableSceleton,
-} from '../components-transponder';
+import { CustomTextField, TableSceleton } from '../components-transponder';
 import { ITableCellObj } from '../../types/slicesInitialStateInterface';
 
 import { AppDispatchType, RootStateType } from '../../redux/store';
@@ -122,8 +118,8 @@ export function TableContent() {
 		}
 
 		if (error) {
-			return (
-				<ErrorMessage errorText='Check internet connection or CORS policy!' />
+			throw new Error(
+				'Loading error, check internet connection or CORS policy!'
 			);
 		}
 
@@ -190,7 +186,7 @@ export function TableContent() {
 						</TableCell>
 					</TableRow>
 				</TableHead>
-				<TableBody sx={{ position: 'relative' }}>
+				<TableBody sx={{ position: 'relative', width: '100%' }}>
 					{chooseContentDependOnLoadingOrError(loading, error)}
 				</TableBody>
 			</Table>
