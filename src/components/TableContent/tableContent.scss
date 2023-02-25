@@ -67,14 +67,31 @@ table {
           color: rgb(119, 117, 117);
           cursor: pointer;
      }
+}
 
-     @media (max-width: 390px) {
-          .MuiTableContainer-root {
-               min-height: 240px !important;
+@media (max-width: 439px) {
+     .css-xha7tp-MuiPaper-root-MuiTableContainer-root {
+          min-height: 226px !important;
+     }
+
+     table {
+          table-layout: fixed;
+
+          td {
+               &:first-child {
+                    min-width: 80px !important;
+               }
+
+               &:not(:first-child) {
+                    padding: 16px 5px !important;
+                    width: 200px !important;
+               }
+
           }
 
-          & {
-               table-layout: fixed;
+
+          .TableCell_hower .TableDiv_hower {
+               padding: 0;
           }
      }
 }

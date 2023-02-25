@@ -160,20 +160,24 @@ export function TableContent() {
 	return (
 		<TableContainer
 			component={Paper}
-			sx={{ overflowY: 'auto', overflowX: 'hidden', minHeight: '227px' }}
+			sx={{
+				overflow: 'hidden',
+				minHeight: '219px',
+				minWidth: '240px',
+			}}
 		>
-			<Table sx={{ minWidth: 320 }} aria-label='simple table'>
+			<Table sx={{}} aria-label='simple table'>
 				<TableHead>
 					<TableRow>
 						<TableCell align='left' size='small'>
-							Currency / Current
+							Currency/ Current
 							<br />
 							Date
 						</TableCell>
 						<TableCell
 							align='center'
 							scope='col'
-							sx={{ width: '120px' }}
+							sx={{ width: '50px' }}
 						>
 							Buy
 						</TableCell>
