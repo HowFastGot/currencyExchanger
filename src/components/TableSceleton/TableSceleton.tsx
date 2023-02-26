@@ -6,7 +6,7 @@ export function TableSceleton({ position }: { position: string }) {
 			<Skeleton
 				animation='wave'
 				height='40px'
-				width='95%'
+				width='96%'
 				variant='rounded'
 				component={'tr'}
 				sx={{
