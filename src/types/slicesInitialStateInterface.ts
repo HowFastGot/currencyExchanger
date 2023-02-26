@@ -29,7 +29,7 @@ export interface ITableSliceInitialState {
 }
 
 //=======Currency slice===========================================================================
-type CurrencyType = 'UAH' | 'USD' | 'EUR' | 'BTC';
+export type CurrencyType = 'UAH' | 'USD' | 'EUR' | 'BTC';
 
 export type currencySliceFunctionsType =
 	| typeof changeTableCellFirstColumnElement

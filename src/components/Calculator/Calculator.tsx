@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { calculatorSelector } from '../../redux/calculatorSlice';
-import { RootStateType } from '../../redux/store';
+import {
+	calculatorSelector,
+	changeCurrencyName,
+	getCurrencyName,
+} from '../../redux/calculatorSlice';
+import { AppDispatchType, RootStateType } from '../../redux/store';
 import {
 	multiply,
 	divide,
@@ -22,6 +26,8 @@ import './calculator.scss';
 export function Calculator() {
 	const [getValue, setValue] = useState('');
 	const [changeValue, setChangeValue] = useState('');
+
+	const dispatch: AppDispatchType = useDispatch();
 
 	const {
 		euro,
@@ -367,6 +373,15 @@ export function Calculator() {
 			}
 		}
 	};
+
+	const handleClickOnSwipeCurrenciesBtn = () => {
+		dispatch(changeCurrencyName(getCurrency));
+		dispatch(getCurrencyName(changeCurrency));
+
+		setChangeValue(getValue);
+		setValue(changeValue);
+	};
+
 	return (
 		<>
 			<Box
@@ -393,10 +408,13 @@ export function Calculator() {
 						onChange={handleInputCurrencyValue}
 						value={changeValue}
 					/>
-					<CurrencySelect defaultValue='UAH' isChangeFiled={true} />
+					<CurrencySelect
+						defaultValue={changeCurrency}
+						isChangeFiled={true}
+					/>
 				</Box>
 
-				<IconButton>
+				<IconButton onClick={handleClickOnSwipeCurrenciesBtn}>
 					<SyncAltIcon />
 				</IconButton>
 				<Box
@@ -413,7 +431,10 @@ export function Calculator() {
 						onChange={handleInputCurrencyValue}
 						value={getValue}
 					/>
-					<CurrencySelect defaultValue='USD' isChangeFiled={false} />
+					<CurrencySelect
+						defaultValue={getCurrency}
+						isChangeFiled={false}
+					/>
 				</Box>
 			</Box>
 		</>

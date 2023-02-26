@@ -1,7 +1,9 @@
+import { CurrencyType } from './slicesInitialStateInterface';
+
 export interface IContainerProps {
 	children: React.ReactNode;
 }
 export interface ICurrencySelectProps {
-	defaultValue: 'UAH' | 'USD';
+	defaultValue: CurrencyType;
 	isChangeFiled: boolean;
 }

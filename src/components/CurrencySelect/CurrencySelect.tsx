@@ -40,7 +40,7 @@ export function CurrencySelect({
 		>
 			<FormControl fullWidth>
 				<NativeSelect
-					defaultValue={defaultValue}
+					value={defaultValue}
 					onChange={handleSelectChange}
 					inputProps={{
 						name: 'age',
