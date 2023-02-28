@@ -1,11 +1,12 @@
 import { isInRequiredRange } from './validateCustomTextInput';
 
-describe('Validate table cell input', () => {
-	test('Control change currency range. Invalid range', () => {
-		expect(isInRequiredRange('20', '23')).toBe(true);
+describe('isInRequiredRange', () => {
+	it('Should return true if targetValue is within +- 10% range of defaultValue', () => {
+		expect(isInRequiredRange('10', '11')).toBe(true);
+		expect(isInRequiredRange('20', '18')).toBe(true);
 	});
-
-	test('Control change currency range. Valid range', () => {
-		expect(isInRequiredRange('11', '10')).toBe(false);
+	it('Should return false if targetValue is outside of +- 10% range of defaultValue', () => {
+		expect(isInRequiredRange('30', '26')).toBe(false);
+		expect(isInRequiredRange('40', '45')).toBe(false);
 	});
 });

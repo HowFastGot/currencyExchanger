@@ -55,7 +55,7 @@ export function CustomTextField({
 
 		const userNewNumber = targetValueArr ? targetValueArr[0] : '';
 		if (
-			isInRequiredRange(defaultValueOfInput, userNewNumber) ||
+			!isInRequiredRange(defaultValueOfInput, userNewNumber) ||
 			isNaN(+userNewNumber)
 		) {
 			setIsError(true);
