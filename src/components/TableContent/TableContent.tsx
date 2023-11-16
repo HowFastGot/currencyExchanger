@@ -29,14 +29,8 @@ import './tableContent.scss';
 export function TableContent() {
 	const [rows, setRows] = useState<ITableCellObj[]>([]);
 	const {
-		firstTableObj: {
-			isTrue: isTextFieldBuyCol,
-			indexOfElement: indexOfElementFirstCol,
-		},
-		secondtTableObj: {
-			isTrue: isTextFieldSellCol,
-			indexOfElement: indexOfElementSecondCol,
-		},
+		firstTableObj: { isTrue: isTextFieldBuyCol, indexOfElement: indexOfElementFirstCol },
+		secondtTableObj: { isTrue: isTextFieldSellCol, indexOfElement: indexOfElementSecondCol },
 	} = useSelector((state: RootStateType) => {
 		return tableBothColumsSelector(state.tableReducer);
 	});
@@ -51,8 +45,7 @@ export function TableContent() {
 		const funcCreatorsArray: ITableCellObj[] = [];
 
 		values.forEach((currency) => {
-			const { name, buy, sell }: ITableCellObj =
-				NameModificator(currency);
+			const { name, buy, sell }: ITableCellObj = NameModificator(currency);
 
 			funcCreatorsArray.push(createData(name, buy, sell));
 		});
@@ -66,17 +59,12 @@ export function TableContent() {
 		index: number,
 		isTextStateFieldBoth: boolean,
 		indexOfElementFromState: number,
-		changeStateFunc:
-			| typeof changeTableCellFirstColumnElement
-			| typeof changeTableCellSecondColumnElement
+		changeStateFunc: typeof changeTableCellFirstColumnElement | typeof changeTableCellSecondColumnElement
 	): JSX.Element => {
 		if (isTextStateFieldBoth && index === indexOfElementFromState) {
 			return (
 				<>
-					<CustomTextField
-						nameOfColumn={nameOfColumn}
-						index={index}
-					/>
+					<CustomTextField nameOfColumn={nameOfColumn} index={index} />
 				</>
 			);
 		} else {
@@ -103,10 +91,7 @@ export function TableContent() {
 		}
 	};
 
-	const chooseContentDependOnLoadingOrError = (
-		loading: boolean,
-		error: boolean
-	): JSX.Element | JSX.Element[] => {
+	const chooseContentDependOnLoadingOrError = (loading: boolean, error: boolean): JSX.Element | JSX.Element[] => {
 		if (loading) {
 			return (
 				<>
@@ -118,9 +103,7 @@ export function TableContent() {
 		}
 
 		if (error) {
-			throw new Error(
-				'Loading error, check internet connection or CORS policy!'
-			);
+			throw new Error('Loading error, check internet connection or CORS policy!');
 		}
 
 		return rows.map((row, index) => (
@@ -130,8 +113,7 @@ export function TableContent() {
 					'&:last-child td, &:last-child th': {
 						border: 0,
 					},
-				}}
-			>
+				}}>
 				<TableCell scope='row'>{row.name}</TableCell>
 				<TableCell align='center' classes={{ root: 'TableCell_hower' }}>
 					{changeContentOfTableCellBothCol(
@@ -161,11 +143,10 @@ export function TableContent() {
 		<TableContainer
 			component={Paper}
 			sx={{
-				overflow: 'hidden',
+				overflow: 'auto',
 				minHeight: '219px',
 				minWidth: '240px',
-			}}
-		>
+			}}>
 			<Table sx={{}} aria-label='simple table'>
 				<TableHead>
 					<TableRow>
@@ -174,18 +155,10 @@ export function TableContent() {
 							<br />
 							Date
 						</TableCell>
-						<TableCell
-							align='center'
-							scope='col'
-							sx={{ width: '50px' }}
-						>
+						<TableCell align='center' scope='col' sx={{ width: '50px' }}>
 							Buy
 						</TableCell>
-						<TableCell
-							align='center'
-							scope='col'
-							sx={{ width: '120px' }}
-						>
+						<TableCell align='center' scope='col' sx={{ width: '120px' }}>
 							Sell
 						</TableCell>
 					</TableRow>

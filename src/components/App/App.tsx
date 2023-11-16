@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import useSWR from 'swr';
+
 import {
 	Bottom,
 	Header,
@@ -18,14 +20,16 @@ import { useHttp } from '../../hooks/http.hook';
 import './App.scss';
 
 function App() {
-	const [isServerError, setServerError] = useState('');
-	const [updateData, setUpdateDate] = useState(1);
+	const mock_apiUrl = '/mockData.json&coursid=4';
 
-	const loading = useSelector(
-		(state: RootStateType) => state.currencyReducer.loading
-	);
+	const [isServerError, setServerError] = useState('');
+	const [updateData, setUpdateDate] = useState<number>(1);
+
+	const loading = useSelector((state: RootStateType) => state.currencyReducer.loading);
 
 	const { request } = useHttp();
+	useSWR(mock_apiUrl, request);
+	useSWR('https://api.coindesk.com/v1/bpi/currentprice.json', request);
 
 	const handleUpdateCurrencies = (): void => {
 		setUpdateDate((state) => state + 1);
@@ -33,15 +37,9 @@ function App() {
 	};
 
 	useEffect(() => {
-		request(
-			'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
-		)
-			.then(() =>
-				request('https://api.coindesk.com/v1/bpi/currentprice.json')
-			)
-			.catch((error) => {
-				setServerError(error.message);
-			});
+		request(mock_apiUrl).catch((error) => {
+			setServerError(error.message);
+		});
 
 		return () => {
 			if (isServerError) {
@@ -55,13 +53,7 @@ function App() {
 		<>
 			<Header />
 			<Container>
-				<ErrorBoundary>
-					{isServerError ? (
-						<ErrorMessage errorText={isServerError} />
-					) : (
-						<TableContent />
-					)}
-				</ErrorBoundary>
+				<ErrorBoundary>{isServerError ? <ErrorMessage errorText={isServerError} /> : <TableContent />}</ErrorBoundary>
 				<ErrorBoundary>
 					<Calculator />
 				</ErrorBoundary>
@@ -69,9 +61,7 @@ function App() {
 				<LoadingButton
 					loading={loading}
 					variant='outlined'
-					children={
-						isServerError ? 'Refresh page' : 'Load currencies'
-					}
+					children={isServerError ? 'Refresh page' : 'Load currencies'}
 					sx={{ width: '250px', m: '0 auto' }}
 					onClick={handleUpdateCurrencies}
 				/>

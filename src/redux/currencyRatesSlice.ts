@@ -26,7 +26,9 @@ const currencyValuesSlice = createSlice({
 			state.error = true;
 		},
 		fetchedResults: (state, action: IAction) => {
-			state.values = action.payload;
+			const currencies = action.payload;
+
+			state.values = currencies;
 			state.loading = false;
 			state.error = false;
 		},
@@ -54,11 +56,6 @@ export const currencySelector = createSelector(
 );
 
 export const {
-	actions: {
-		fetchingResult,
-		errorFetching,
-		fetchedResults,
-		fetchBitcoinRate,
-	},
+	actions: { fetchingResult, errorFetching, fetchedResults, fetchBitcoinRate },
 	reducer,
 } = currencyValuesSlice;

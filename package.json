@@ -3,6 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
+	"homepage": ".",
+	"proxy": "http://localhost:3000",
 	"dependencies": {
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
@@ -25,6 +27,7 @@
 		"react-redux": "^8.0.5",
 		"react-scripts": "5.0.1",
 		"sass": "^1.58.2",
+		"swr": "^2.2.4",
 		"typescript": "^4.9.5",
 		"web-vitals": "^2.1.4"
 	},
