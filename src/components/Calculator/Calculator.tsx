@@ -27,8 +27,9 @@ export function Calculator() {
 	);
 
 	const handleInputCurrencyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.id, changeCurrency, getCurrency);
-		if (e.target.id === ':r1:') {
+		const isFirstInput = e.target.closest("div[class*='setValueInput']");
+
+		if (isFirstInput) {
 			switch (changeCurrency) {
 				case 'UAH':
 					switch (getCurrency) {
@@ -199,7 +200,13 @@ export function Calculator() {
 						justifyContent: 'space-between',
 						width: '100%',
 					}}>
-					<TextField variant='standard' label='Change' onChange={handleInputCurrencyValue} value={changeValue} />
+					<TextField
+						variant='standard'
+						label='Change'
+						onChange={handleInputCurrencyValue}
+						value={changeValue}
+						className='setValueInput'
+					/>
 					<CurrencySelect defaultValue={changeCurrency} isChangeFiled={true} />
 				</Box>
 
@@ -213,7 +220,13 @@ export function Calculator() {
 						justifyContent: 'space-between',
 						width: '100%',
 					}}>
-					<TextField variant='standard' label='Get' onChange={handleInputCurrencyValue} value={getValue} />
+					<TextField
+						variant='standard'
+						label='Get'
+						onChange={handleInputCurrencyValue}
+						value={getValue}
+						className='getValueInput'
+					/>
 					<CurrencySelect defaultValue={getCurrency} isChangeFiled={false} />
 				</Box>
 			</Box>

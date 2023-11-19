@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<IProps, IState> {
 	};
 
 	componentDidCatch(error: Error, errorMessage: ErrorInfo) {
-		console.log('Первый аргумент componentDidCatch: >>', error);
+		console.log('Первый аргумент componentDidCatch: >>', error, errorMessage);
 
 		this.setState({
 			error: true,
