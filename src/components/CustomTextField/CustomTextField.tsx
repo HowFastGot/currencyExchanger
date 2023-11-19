@@ -19,16 +19,11 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormHelperText from '@mui/material/FormHelperText';
+import { calculatorSelector } from '../../redux/calculatorSlice';
 
-export function CustomTextField({
-	nameOfColumn,
-	index,
-}: {
-	nameOfColumn: string;
-	index: number;
-}) {
-	const { values } = useSelector((state: RootStateType) => {
-		return currencySelector(state.currencyReducer);
+export function CustomTextField({ nameOfColumn, index }: { nameOfColumn: string; index: number }) {
+	const { allCurrencyValues } = useSelector((state: RootStateType) => {
+		return calculatorSelector(state.calculatorReducer);
 	});
 
 	const {
@@ -38,26 +33,20 @@ export function CustomTextField({
 		return tableBothColumsSelector(state.tableReducer);
 	});
 
-	const defaultValueOfInput =
-		nameOfColumn === 'second' ? secondColumnValue : firstColumnValue;
+	const defaultValueOfInput = nameOfColumn === 'second' ? secondColumnValue : firstColumnValue;
 
 	const [newValue, setNewValue] = useState(defaultValueOfInput.toString());
 	const [isError, setIsError] = useState(false);
 
 	const dispatch: AppDispatchType = useDispatch();
 
-	const validateInputValue = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
+	const validateInputValue = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const regExp = /^[0-9]+(.)?([0-9]+)?/gi;
 
 		const targetValueArr = e.target.value.match(regExp);
 
 		const userNewNumber = targetValueArr ? targetValueArr[0] : '';
-		if (
-			!isInRequiredRange(defaultValueOfInput, userNewNumber) ||
-			isNaN(+userNewNumber)
-		) {
+		if (!isInRequiredRange(defaultValueOfInput, userNewNumber) || isNaN(+userNewNumber)) {
 			setIsError(true);
 			setNewValue(userNewNumber);
 		} else {
@@ -91,13 +80,7 @@ export function CustomTextField({
 
 		dispatch(saveNewCurrencyValue(newCellStateObj));
 
-		changeInitialCurrencyRateState(
-			values,
-			nameOfColumn,
-			index,
-			newValue,
-			dispatch
-		);
+		changeInitialCurrencyRateState(allCurrencyValues, nameOfColumn, index, newValue, dispatch);
 	};
 
 	return (

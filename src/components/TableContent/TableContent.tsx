@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	tableBothColumsSelector,
@@ -6,13 +5,9 @@ import {
 	changeTableCellSecondColumnElement,
 } from '../../redux/tableSlice';
 
-import { currencySelector } from '../../redux/currencyRatesSlice';
-
 import { CustomTextField, TableSceleton } from '../components-transponder';
-import { ITableCellObj } from '../../types/slicesInitialStateInterface';
 
 import { AppDispatchType, RootStateType } from '../../redux/store';
-import { createData, NameModificator } from '../../utils';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -25,33 +20,20 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 
 import './tableContent.scss';
+import { calculatorSelector } from '../../redux/calculatorSlice';
 
-export function TableContent() {
-	const [rows, setRows] = useState<ITableCellObj[]>([]);
+export function TableContent({ loading, error }: { loading: boolean; error: boolean }) {
+	const { allCurrencyValues } = useSelector((state: RootStateType) => {
+		return calculatorSelector(state.calculatorReducer);
+	});
+
 	const {
 		firstTableObj: { isTrue: isTextFieldBuyCol, indexOfElement: indexOfElementFirstCol },
 		secondtTableObj: { isTrue: isTextFieldSellCol, indexOfElement: indexOfElementSecondCol },
 	} = useSelector((state: RootStateType) => {
 		return tableBothColumsSelector(state.tableReducer);
 	});
-
-	const { values, loading, error } = useSelector((state: RootStateType) => {
-		return currencySelector(state.currencyReducer);
-	});
-
 	const dispatch: AppDispatchType = useDispatch();
-
-	useEffect(() => {
-		const funcCreatorsArray: ITableCellObj[] = [];
-
-		values.forEach((currency) => {
-			const { name, buy, sell }: ITableCellObj = NameModificator(currency);
-
-			funcCreatorsArray.push(createData(name, buy, sell));
-		});
-
-		setRows(funcCreatorsArray);
-	}, [values]);
 
 	const changeContentOfTableCellBothCol = (
 		nameOfColumn: string,
@@ -106,7 +88,7 @@ export function TableContent() {
 			throw new Error('Loading error, check internet connection or CORS policy!');
 		}
 
-		return rows.map((row, index) => (
+		return allCurrencyValues.map((row, index) => (
 			<TableRow
 				key={row.name}
 				sx={{
@@ -151,9 +133,7 @@ export function TableContent() {
 				<TableHead>
 					<TableRow>
 						<TableCell align='left' size='small'>
-							Currency/ Current
-							<br />
-							Date
+							Currency/ Current Date
 						</TableCell>
 						<TableCell align='center' scope='col' sx={{ width: '50px' }}>
 							Buy

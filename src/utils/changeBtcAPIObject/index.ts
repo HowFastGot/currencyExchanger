@@ -1,12 +1,9 @@
 import { IBtcToUSDRation } from '../../types/apiObjectsInterface';
 
-export function changeBtcAPIObject(
-	apiObj: IBtcToUSDRation,
-	sellRate: string = '25214.20'
-) {
+export function changeBtcAPIObject(apiObj: IBtcToUSDRation, sellRate: string = '39988') {
 	return {
 		name: apiObj.code,
 		buy: apiObj['rate_float'],
-		sale: sellRate,
+		sell: sellRate,
 	};
 }

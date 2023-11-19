@@ -5,8 +5,8 @@ export function emulateServerError() {
 	if (parsedCounterNumber >= 5) {
 		localStorage.clear();
 
-		throw new Error(
-			'Too many API request, please try in 10 minutes... just kidding, reload the page!'
-		);
+		return 'Too many API request, please try in 10 minutes... just kidding, reload the page!';
+	} else {
+		return null;
 	}
 }

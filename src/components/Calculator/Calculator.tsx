@@ -27,6 +27,7 @@ export function Calculator() {
 	);
 
 	const handleInputCurrencyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+		console.log(e.target.id, changeCurrency, getCurrency);
 		if (e.target.id === ':r1:') {
 			switch (changeCurrency) {
 				case 'UAH':
@@ -82,7 +83,7 @@ export function Calculator() {
 				case 'BTC':
 					switch (getCurrency) {
 						case 'UAH':
-							exchangeCurrencyRate(e.target.value, usdToBtcRatio, multiply, setChangeValue, setValue);
+							exchangeCurrencyRate(e.target.value, '36837.4285', multiply, setChangeValue, setValue);
 							break;
 						case 'USD':
 							exchangeCurrencyRate(e.target.value, btc.buy, multiply, setChangeValue, setValue);

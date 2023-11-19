@@ -84,21 +84,29 @@ export const calculatorSelector = createSelector(
 	[
 		(state: typeof initialState) => state.euro,
 		(state: typeof initialState) => state.usd,
-		(state: typeof initialState) => state.uan,
 		(state: typeof initialState) => state.btc,
 		(state: typeof initialState) => state.changeCurrency,
 		(state: typeof initialState) => state.getCurrency,
 	],
-	(euro, usd, uan, btc, changeCurrency, getCurrency) => ({
-		euro,
-		usd,
-		btc,
-		changeCurrency,
-		getCurrency,
-		usdToEuroRatio: (+usd.buy / +euro.buy).toString(),
-		usdToBtcRatio: (+btc.buy * +usd.buy).toString(),
-		euroToBtcRatio: (+btc.buy * (+usd.buy / +euro.buy)).toString(),
-	})
+	(euro, usd, btc, changeCurrency, getCurrency) => {
+		console.log(btc);
+
+		return {
+			euro,
+			usd,
+			btc,
+			changeCurrency,
+			getCurrency,
+			usdToEuroRatio: (+usd.buy / +euro.buy).toString(),
+			usdToBtcRatio: (+btc.buy * +usd.buy).toString(),
+			euroToBtcRatio: (+btc.buy * (+usd.buy / +euro.buy)).toString(),
+			allCurrencyValues: [
+				{ ...euro, name: 'EURO/UAH' },
+				{ ...usd, name: 'USD/UAH' },
+				{ ...btc, name: 'USD/BTC' },
+			],
+		};
+	}
 );
 
 export const {

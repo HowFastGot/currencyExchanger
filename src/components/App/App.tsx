@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useSWR from 'swr';
+
+import { emulateServerError, request } from '../../utils';
 
 import {
 	Bottom,
@@ -13,11 +15,11 @@ import {
 } from '../components-transponder';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { RootStateType } from '../../redux/store';
-
-import { useHttp } from '../../hooks/http.hook';
+import { AppDispatchType, RootStateType } from '../../redux/store';
 
 import './App.scss';
+import { errorFetching, fetchBitcoinRate, fetchedResults, fetchingResult } from '../../redux/currencyRatesSlice';
+import { fetchBtcInitialRate, fetchInitialValuesExceptBtc } from '../../redux/calculatorSlice';
 
 function App() {
 	const mock_apiUrl = '/mockData.json&coursid=4';
@@ -25,21 +27,26 @@ function App() {
 	const [isServerError, setServerError] = useState('');
 	const [updateData, setUpdateDate] = useState<number>(1);
 
-	const loading = useSelector((state: RootStateType) => state.currencyReducer.loading);
+	const dispath: AppDispatchType = useDispatch();
 
-	const { request } = useHttp();
-	useSWR(mock_apiUrl, request);
-	useSWR('https://api.coindesk.com/v1/bpi/currentprice.json', request);
+	const { data: privatMockData, error: privatError, isLoading: privatLoading } = useSWR(mock_apiUrl, request);
+	!privatLoading && dispath(fetchInitialValuesExceptBtc(privatMockData));
+
+	const { data: cryproData, error, isLoading } = useSWR('https://api.coindesk.com/v1/bpi/currentprice.json', request);
+
+	!isLoading && dispath(fetchBtcInitialRate(cryproData));
+	// dispath(fetchBitcoinRate(cryproData));
 
 	const handleUpdateCurrencies = (): void => {
 		setUpdateDate((state) => state + 1);
 		localStorage.setItem('count', updateData.toString());
 	};
 
+	if (error || privatError) dispath(errorFetching());
+
 	useEffect(() => {
-		request(mock_apiUrl).catch((error) => {
-			setServerError(error.message);
-		});
+		const errMessage = emulateServerError();
+		if (error || privatError || errMessage) setServerError(errMessage ?? 'Server error occured!');
 
 		return () => {
 			if (isServerError) {
@@ -47,19 +54,27 @@ function App() {
 				setUpdateDate(1);
 			}
 		};
-	}, [request, updateData, isServerError]);
+	}, [updateData, isServerError]);
 
 	return (
 		<>
 			<Header />
 			<Container>
-				<ErrorBoundary>{isServerError ? <ErrorMessage errorText={isServerError} /> : <TableContent />}</ErrorBoundary>
 				<ErrorBoundary>
-					<Calculator />
+					{isServerError ? (
+						<ErrorMessage errorText={isServerError} />
+					) : (
+						<>
+							<TableContent loading={isLoading || privatLoading} error={privatError || error} />
+							<ErrorBoundary>
+								<Calculator />
+							</ErrorBoundary>
+						</>
+					)}
 				</ErrorBoundary>
 
 				<LoadingButton
-					loading={loading}
+					loading={isLoading || privatLoading}
 					variant='outlined'
 					children={isServerError ? 'Refresh page' : 'Load currencies'}
 					sx={{ width: '250px', m: '0 auto' }}

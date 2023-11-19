@@ -1,3 +1,5 @@
+export { request } from './request/request';
+
 export { NameModificator } from './changeAPIresponseData/changeAPIresponseData';
 export { setContent } from './setComponentContent/setContent';
 export { createData } from './createTableCurrencyRatesData/createData';
